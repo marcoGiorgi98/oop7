@@ -101,7 +101,23 @@ public final class Transformers {
      * @param <I> elements type
      */
     public static <I> List<I> select(final Iterable<I> base, final Function<I, Boolean> test) {
-        return null;
+        
+        return flattenTransform(base, new Function<I,List<? extends I>>() {
+
+            @Override
+            public List<? extends I> call(I input) {
+                
+                if(test.call(input)){
+                    return List.of(input);
+                }
+                else return List.of();
+                
+                
+               // return test.call(input);
+               // return List.of(Function.call(input));
+            }
+            
+        });
     }
 
     /**
@@ -117,6 +133,8 @@ public final class Transformers {
      * @param <I> elements type
      */
     public static <I> List<I> reject(final Iterable<I> base, final Function<I, Boolean> test) {
-        return null;
+
+        return select(base, test);
+        
     }
 }
